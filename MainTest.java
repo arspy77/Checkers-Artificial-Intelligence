@@ -7,7 +7,19 @@ class MainTest {
         State internal = new State();
 
         Scanner scan = new Scanner(System.in);
+        System.out.println("Hitam / Putih ? ");
+        String turn = scan.nextLine();
+        boolean isBlack;
+        if(turn.compareTo("Hitam") == 0)
+        {
+            isBlack = true;
+        }else{
+            isBlack = false;
+        }
         int input = 0;
+
+        // RandomBot randomBot = new RandomBot(!isBlack);
+        MinimaxBot minimaxBot = new MinimaxBot();
         while(input != -1){
             if(internal.getIsBlackMove()) {
                 System.out.println("Black Turn");
@@ -24,11 +36,15 @@ class MainTest {
                 System.out.println(i + ". Moves : " + lp);
                 i++;
             }
-            input = scan.nextInt();
-            if(input != -1) {
-                internal.move(solution.get(input-1));
+            if(isBlack == internal.getIsBlackMove()){
+                input = scan.nextInt();
+                if(input != -1) {
+                    internal.move(solution.get(input-1));
+                    minimaxBot.applyOppMove(solution.get(input-1));
+                }
+            }else{
+                internal.move(minimaxBot.getMove());
             }
-            internal.setIsBlackMove(!internal.getIsBlackMove());
         }
     }
 }

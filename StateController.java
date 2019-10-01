@@ -1,14 +1,21 @@
 class StateController {
     private State state;
     private StateView stateView;
+    private Bot randomBot;
+    private Bot minimaxBot;
 
-    public StateController(State state, StateView stateView) {
+    public StateController(State state, StateView stateView, Bot randomBot, Bot minimaxBot) {
         this.state = state;
         this.stateView = stateView;
+        this.randomBot = randomBot;
+        this.minimaxBot = minimaxBot;
     }
 
     public void initController(){
-        this.stateView.updateButtons(this.state.getBoard());
-
+        this.stateView.updateButtonImage(this.state.getBoard());
     }
+    public StateView getView(){
+        return stateView;
+    }
+    
 }
