@@ -4,22 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
 
 /** StateView adalah kelas yang menggambar State */
 @SuppressWarnings("serial")
-public class StateView extends JFrame implements Observer {
-    private State state;
+public class StateView extends JFrame{
     private LinkedList<LinkedList<JButton>> buttons = new LinkedList<>();
     
     
     /** Ctor untuk class StateView */
-    public StateView(State state) {
+    public StateView() {
         setFocusable(true);
-        this.state = state;
-        state.addObserver(this);
 
         JPanel board = new JPanel();
 		board.setLayout(new GridLayout(8,8));
@@ -29,36 +24,50 @@ public class StateView extends JFrame implements Observer {
             LinkedList<JButton> rowButtons = new LinkedList<>();
             for (int j = 0; j < 8; j++){
 				JButton button = new JButton();
+				
                 board.add(button);
-                
 			}
+			buttons.add(rowButtons);
 		}
 
     }
 
     /**
-	 * Updates the gui when the observable object notifies its observers.
-	 * This will iterate through updating all the buttons, the status, and 
-	 * check if the game has been won.
+	 * Updates the gui
+	 * This will iterate through updating all the buttons
 	 */
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		for (int r = 0; r < 8; r++){
-			for (int c = 0; c < 8; c++){
-				getButton(r,c).update();
+	public void update() {
+		for (int i = 0; i < 8; i++){
+			for (int j = 0; j < 8; j++){
+				
 			}
 		}
-		if ((this.model.hasWon() != 0)){
-			this.setEnabled(false);
-			new GameOver(this,this.model);
-			this.setEnabled(true);
+	}
+
+    /**
+     * @return LinkedList<LinkedList<JButton>> return the buttons
+     */
+    public LinkedList<LinkedList<JButton>> getButtons() {
+        return buttons;
+    }
+
+	/**
+     * @return JButton return the button
+     */
+    public JButton getButton(int row, int col) {
+        return buttons.get(row).get(col);
+    }
+
+	/**
+     * @param buttons the buttons to set
+     */
+    public void setButtons(LinkedList<LinkedList<JButton>> buttons) {
+        this.buttons = buttons;
+	}
+
+	public void updateButtons(char[] board){
+		for (int i = 0; i < board.length; i++) {
+				
 		}
-		else if (this.model.clicked.size() == 0){
-			this.status.setText("Status: Select the piece you want to move");
-		}
-		else{
-			this.status.setText("Status: Select where to move this piece to");
-		}
-		
 	}
 }
