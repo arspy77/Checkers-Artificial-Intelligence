@@ -2,9 +2,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 class MinimaxBot implements Bot {
-    private static int MAX_DEPTH = 0;
+    private static int MAX_DEPTH = 7;
 
-    State internal = new State();
+    State internal;
+
+    public MinimaxBot(State s) {
+        internal = s;
+    }
 
     public void applyMove(List<Pair> moves) {
         internal.move(moves);

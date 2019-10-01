@@ -244,7 +244,7 @@ class State {
             for (Pair pNew : singleCapture) {
                 Pair pCapt = p.mid(pNew);
                 char cur = getBoard(p), capt = getBoard(pCapt);
-                boardHistory.add(board);
+                boardHistory.add(board.clone());
                 setCell(p, EMPTY);
                 setCell(pCapt, EMPTY);
                 if (pNew.row == 7 && cur == BLACK_PAWN) {
@@ -258,6 +258,7 @@ class State {
                 curPath.add(pNew);
                 DFSAllCapture(pNew, curPath, solution);
                 curPath.remove(curPath.size() - 1);
+                isBlackMove = !isBlackMove;
                 revertMove();
             }
         } else {
