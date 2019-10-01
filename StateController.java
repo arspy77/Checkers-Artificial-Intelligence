@@ -108,11 +108,11 @@ class StateController {
         state.move(temp);
         // System.out.println(state);
         char[] boardNext = state.getBoard().clone();
-        try {
-            Thread.sleep(500);
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
+        // try {
+        //     Thread.sleep(500);
+        // } catch (Exception e) {
+        //     //TODO: handle exception
+        // }
         stateView.updateButtonImage(boardNext);
         if(multipleJump){
             inPartialMove = true;
