@@ -70,6 +70,7 @@ class State {
     private List<char[]> boardHistory;
 
     public State() {
+        isBlackMove = true;
         reset();
     }
 
@@ -278,7 +279,6 @@ class State {
             if ((isBlackMove && isBlack(p)) || (!isBlackMove && isWhite(p))) {
                 solution.addAll(generateAllCaptures(p));
             } 
-            // System.out.println(solution);
         }
         if (solution.size() == 0) {
             for (int i = 1; i <= CELL_CNT; ++i) {
@@ -293,7 +293,7 @@ class State {
     }
 
     public void move(List<Pair> moves) {
-        boardHistory.add(board);
+        boardHistory.add(board.clone());
         Pair p = moves.get(0);
         Pair pNew = p.copy();
         //Apply move

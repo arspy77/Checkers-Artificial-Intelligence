@@ -90,8 +90,10 @@ class MinimaxBot implements Bot {
             }
         }
         //Awal 24 bidak
-        int minEarlyGame = 18;
-        int minMidGame = 10; 
+
+        int minEarlyGame = 20;
+        int minMidGame = 6; 
+
         if(totalPieces >= minEarlyGame){
             return heuristic1();
         }else if(totalPieces >= minMidGame) {
@@ -118,6 +120,7 @@ class MinimaxBot implements Bot {
                     break;
                 }
             }
+            // System.out.println("IsBlackMove: "+depth+" " + bestVal);
             return bestVal;
         } else {
             double bestVal = Double.POSITIVE_INFINITY;
@@ -127,11 +130,12 @@ class MinimaxBot implements Bot {
                 double value = minimax(depth + 1, alpha, beta);
                 internal.revertMove();
                 bestVal = Math.min(bestVal, value);
-                alpha = Math.min(beta, bestVal);
+                beta = Math.min(beta, bestVal);
                 if (beta <= alpha) {
                     break;
                 }
             }
+            // System.out.println("IsWhiteMove: "+depth+" " + bestVal);
             return bestVal;
         }
     }
@@ -141,6 +145,7 @@ class MinimaxBot implements Bot {
             double bestVal = Double.NEGATIVE_INFINITY;
             List<List<Pair>> allMoves = internal.generateAllMoves();
             List<Pair> nextMove = new ArrayList<Pair>();
+            //System.out.println(allMoves);
             for (List<Pair> move : allMoves) {
                 internal.move(move);
                 double value = minimax(0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
@@ -155,6 +160,7 @@ class MinimaxBot implements Bot {
             double bestVal = Double.POSITIVE_INFINITY;
             List<List<Pair>> allMoves = internal.generateAllMoves();
             List<Pair> nextMove = new ArrayList<Pair>();
+            //System.out.println(allMoves);
             for (List<Pair> move : allMoves) {
                 internal.move(move);
                 double value = minimax(0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
