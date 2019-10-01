@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 public class StateView extends JFrame {
     private LinkedList<LinkedList<JButton>> buttons = new LinkedList<>();
 
+    private JButton humanOneButton, randomOneButton, minimaxOneButton, humanTwoButton, 
+    randomTwoButton, minimaxTwoButton, playButton;
+
     /** Ctor untuk class StateView */
     public StateView() {
         setFocusable(true);
@@ -36,7 +39,7 @@ public class StateView extends JFrame {
         }
         this.add(board,BorderLayout.CENTER);
 
-        this.setSize(875, 800);
+        this.setSize(860, 800);
 		this.setResizable(false);
         this.setVisible(true);
         
@@ -44,36 +47,43 @@ public class StateView extends JFrame {
         playerBar.setLayout(new BoxLayout(playerBar, BoxLayout.Y_AXIS));
 
         JTextField playerOne = new JTextField("Player One :");
-        playerOne.setPreferredSize(new Dimension(75,100));
+        playerOne.setPreferredSize(new Dimension(60,75));
+        playerOne.disable();
         playerBar.add(playerOne);
 
-        JButton humanOne = new JButton("Human");
-        humanOne.setPreferredSize(new Dimension(75,100));
-        playerBar.add(humanOne);
+        humanOneButton = new JButton("  Human  ");
+        humanOneButton.setPreferredSize(new Dimension(60,75));
+        playerBar.add(humanOneButton);
 		
-        JButton randomOne = new JButton("Random");
-        randomOne.setPreferredSize(new Dimension(75,100));
-		playerBar.add(randomOne);
+        randomOneButton = new JButton(" Random ");
+        randomOneButton.setPreferredSize(new Dimension(60,75));
+		playerBar.add(randomOneButton);
 		
-        JButton minimaxOne = new JButton("Minimax");
-        minimaxOne.setPreferredSize(new Dimension(75,100));
-        playerBar.add(minimaxOne);
+        minimaxOneButton = new JButton(" Minimax ");
+        minimaxOneButton.setPreferredSize(new Dimension(60,75));
+        playerBar.add(minimaxOneButton);
 
         JTextField playerTwo = new JTextField("Player Two :");
-        playerTwo.setPreferredSize(new Dimension(75,100));
+        playerTwo.disable();
+        playerTwo.setPreferredSize(new Dimension(60,75));
         playerBar.add(playerTwo);
 
-        JButton humanTwo = new JButton("Human");
-        humanTwo.setPreferredSize(new Dimension(75,100));
-		playerBar.add(humanTwo);
+        humanTwoButton = new JButton("  Human  ");
+        humanTwoButton.setPreferredSize(new Dimension(60,75));
+		playerBar.add(humanTwoButton);
 		
-        JButton randomTwo = new JButton("Random");
-        randomTwo.setPreferredSize(new Dimension(75,100));
-		playerBar.add(randomTwo);
+        randomTwoButton = new JButton(" Random ");
+        randomTwoButton.setPreferredSize(new Dimension(60,75));
+		playerBar.add(randomTwoButton);
 		
-        JButton minimaxTwo = new JButton("Minimax");
-        minimaxTwo.setPreferredSize(new Dimension(75,100));
-        playerBar.add(minimaxTwo);
+        minimaxTwoButton = new JButton(" Minimax ");
+        minimaxTwoButton.setPreferredSize(new Dimension(60,75));
+        playerBar.add(minimaxTwoButton);
+
+        playButton = new JButton("   P l a y   ");
+        playButton.setPreferredSize(new Dimension(60, 200));
+        playerBar.add(playButton);
+
         
         this.add(playerBar,BorderLayout.EAST);
     }
@@ -111,11 +121,13 @@ public class StateView extends JFrame {
     }
 
     public void updateButtonImage(char[] board) {
+        System.out.println(board);
         for (int i = 1; i <= State.CELL_CNT; i++) {
             Pair p = Pair.convertNumToCoor(i);
-            System.out.println(board[i]);
-            System.out.println(p.row + " " + p.col);
             switch (board[i]) {
+            case State.EMPTY:
+                buttons.get(p.row).get(p.col).setIcon(new ImageIcon());
+                break;
             case State.POSSIBLE_MOVES:
                 buttons.get(p.row).get(p.col).setIcon(new ImageIcon("img/possible-moves.png"));
                 break;
@@ -145,5 +157,27 @@ public class StateView extends JFrame {
                 break;
             }
         }
+    }
+
+    public JButton getHumanOneButton(){
+        return humanOneButton;
+    } 
+    public JButton getRandomOneButton(){
+        return randomOneButton;
+    }
+    public JButton getMinimaxOneButton(){
+        return minimaxOneButton;
+    } 
+    public JButton getHumanTwoButton(){
+        return humanTwoButton;
+    } 
+    public JButton getRandomTwoButton(){
+        return randomTwoButton;
+    }
+    public JButton getMinimaxTwoButton(){
+        return minimaxTwoButton;
+    }
+    public JButton getPlayButton(){
+        return playButton;
     }
 }

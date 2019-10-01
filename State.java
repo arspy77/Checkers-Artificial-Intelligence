@@ -47,6 +47,14 @@ class Pair {
     public String toString() {
         return Pair.convertCoorToNum(this) + "(" + row + ", " + col + ")";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Pair)) return false;
+        Pair p = (Pair) o;
+        return row == p.row && col == p.col;
+    }
 }
 
 class State {
