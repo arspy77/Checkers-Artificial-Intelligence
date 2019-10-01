@@ -1,17 +1,12 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Random;
 
 class MinimaxBot implements Bot {
-    private static int MAX_DEPTH = 5;
+    private static int MAX_DEPTH = 0;
 
     State internal = new State();
 
-    public void applyOppMove(List<Pair> moves) {
-        internal.move(moves);
-    }
-
-    public void applyOwnMove(List<Pair> moves) {
+    public void applyMove(List<Pair> moves) {
         internal.move(moves);
     }
 
@@ -95,8 +90,10 @@ class MinimaxBot implements Bot {
             }
         }
         //Awal 24 bidak
+
         int minEarlyGame = 20;
         int minMidGame = 6; 
+
         if(totalPieces >= minEarlyGame){
             return heuristic1();
         }else if(totalPieces >= minMidGame) {
@@ -148,7 +145,7 @@ class MinimaxBot implements Bot {
             double bestVal = Double.NEGATIVE_INFINITY;
             List<List<Pair>> allMoves = internal.generateAllMoves();
             List<Pair> nextMove = new ArrayList<Pair>();
-            System.out.println(allMoves);
+            //System.out.println(allMoves);
             for (List<Pair> move : allMoves) {
                 internal.move(move);
                 double value = minimax(0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
@@ -163,7 +160,7 @@ class MinimaxBot implements Bot {
             double bestVal = Double.POSITIVE_INFINITY;
             List<List<Pair>> allMoves = internal.generateAllMoves();
             List<Pair> nextMove = new ArrayList<Pair>();
-            System.out.println(allMoves);
+            //System.out.println(allMoves);
             for (List<Pair> move : allMoves) {
                 internal.move(move);
                 double value = minimax(0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);

@@ -97,7 +97,7 @@ class State {
     }
 
     public char getBoard(Pair p) {
-        if (p.row < 0 || p.row >= 8 || p.col < 0 || p.col >= 8) return OUT_OF_BOUND;
+        if (p.row < 0 || p.row >= CELL_LEN || p.col < 0 || p.col >= CELL_LEN) return OUT_OF_BOUND;
         return board[Pair.convertCoorToNum(p)];
     }
 
@@ -236,6 +236,7 @@ class State {
             for (Pair pNew : singleCapture) {
                 Pair pCapt = p.mid(pNew);
                 char cur = getBoard(p), capt = getBoard(pCapt);
+                boardHistory.add(board);
                 setCell(p, EMPTY);
                 setCell(pCapt, EMPTY);
                 if (pNew.row == 7 && cur == BLACK_PAWN) {
@@ -249,9 +250,7 @@ class State {
                 curPath.add(pNew);
                 DFSAllCapture(pNew, curPath, solution);
                 curPath.remove(curPath.size() - 1);
-                setCell(pNew, EMPTY);
-                setCell(pCapt, capt);
-                setCell(p, cur);
+                revertMove();
             }
         } else {
             if(curPath.size() > 1){
