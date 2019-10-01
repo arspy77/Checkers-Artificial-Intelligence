@@ -3,9 +3,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 class RandomBot implements Bot {
-
-    State internal = new State();
+    State internal;
     Random rand = new Random(System.currentTimeMillis());
+
+    public RandomBot(State s) {
+        internal = s;
+    }
 
     public void applyMove(List<Pair> moves) {
         internal.move(moves);

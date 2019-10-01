@@ -11,8 +11,7 @@ import java.awt.event.ActionListener;
 public class StateView extends JFrame {
     private LinkedList<LinkedList<JButton>> buttons = new LinkedList<>();
 
-    private JButton humanOneButton, randomOneButton, minimaxOneButton, humanTwoButton, 
-    randomTwoButton, minimaxTwoButton, playButton;
+    private JButton randomButton, minimaxButton;
 
     /** Ctor untuk class StateView */
     public StateView() {
@@ -27,10 +26,10 @@ public class StateView extends JFrame {
             for (int j = 0; j < 8; j++) {
                 JButton button = new JButton();
                 if ((i + j) % 2 == 0){
-                    button.setBackground(new Color(255, 255, 255));
+                    button.setBackground(new Color(240, 217, 181));
                 }
                 else{
-                    button.setBackground(new Color(0, 0, 0));
+                    button.setBackground(new Color(181, 136, 99));
                 }
                 rowButtons.add(button);
                 board.add(button);
@@ -45,46 +44,15 @@ public class StateView extends JFrame {
         
         JPanel playerBar = new JPanel();
         playerBar.setLayout(new BoxLayout(playerBar, BoxLayout.Y_AXIS));
-
-        JTextField playerOne = new JTextField("Player One :");
-        playerOne.setPreferredSize(new Dimension(60,75));
-        playerOne.disable();
-        playerBar.add(playerOne);
-
-        humanOneButton = new JButton("  Human  ");
-        humanOneButton.setPreferredSize(new Dimension(60,75));
-        playerBar.add(humanOneButton);
 		
-        randomOneButton = new JButton(" Random ");
-        randomOneButton.setPreferredSize(new Dimension(60,75));
-		playerBar.add(randomOneButton);
+        randomButton = new JButton(" Random ");
+        randomButton.setPreferredSize(new Dimension(60,200));
+		playerBar.add(randomButton);
 		
-        minimaxOneButton = new JButton(" Minimax ");
-        minimaxOneButton.setPreferredSize(new Dimension(60,75));
-        playerBar.add(minimaxOneButton);
+        minimaxButton = new JButton(" Minimax ");
+        minimaxButton.setPreferredSize(new Dimension(60,200));
+        playerBar.add(minimaxButton);
 
-        JTextField playerTwo = new JTextField("Player Two :");
-        playerTwo.disable();
-        playerTwo.setPreferredSize(new Dimension(60,75));
-        playerBar.add(playerTwo);
-
-        humanTwoButton = new JButton("  Human  ");
-        humanTwoButton.setPreferredSize(new Dimension(60,75));
-		playerBar.add(humanTwoButton);
-		
-        randomTwoButton = new JButton(" Random ");
-        randomTwoButton.setPreferredSize(new Dimension(60,75));
-		playerBar.add(randomTwoButton);
-		
-        minimaxTwoButton = new JButton(" Minimax ");
-        minimaxTwoButton.setPreferredSize(new Dimension(60,75));
-        playerBar.add(minimaxTwoButton);
-
-        playButton = new JButton("   P l a y   ");
-        playButton.setPreferredSize(new Dimension(60, 200));
-        playerBar.add(playButton);
-
-        
         this.add(playerBar,BorderLayout.EAST);
     }
 
@@ -159,25 +127,10 @@ public class StateView extends JFrame {
         }
     }
 
-    public JButton getHumanOneButton(){
-        return humanOneButton;
-    } 
-    public JButton getRandomOneButton(){
-        return randomOneButton;
+    public JButton getRandomButton(){
+        return randomButton;
     }
-    public JButton getMinimaxOneButton(){
-        return minimaxOneButton;
-    } 
-    public JButton getHumanTwoButton(){
-        return humanTwoButton;
-    } 
-    public JButton getRandomTwoButton(){
-        return randomTwoButton;
-    }
-    public JButton getMinimaxTwoButton(){
-        return minimaxTwoButton;
-    }
-    public JButton getPlayButton(){
-        return playButton;
+    public JButton getMinimaxButton(){
+        return minimaxButton;
     }
 }
