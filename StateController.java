@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 class StateController {
     public static final char PLAYER_MODE = 'p';
@@ -52,18 +53,50 @@ class StateController {
 
     public void initViewer(){
         this.stateView.updateButtonImage(this.state.getBoard());
-        stateView.getRandomOneButton().addActionListener(new ActionListener() {
+        stateView.getRandomButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!inPartialMove) {
-                    state.move(randomBot.getMove());
+                    if (state.isFinished()){ 
+                        JOptionPane.showMessageDialog(null,"The game has ended.");
+                        stateView.dispose(); 
+                    }
+                    else{
+                        List<Pair> a = randomBot.getMove();
+                        // System.out.println(a);
+                        // System.out.println(state);
+                        state.move(a);
+                        // System.out.println(state);
+                        stateView.updateButtonImage(state.getBoard());
+                        if (state.isFinished()){ 
+                            JOptionPane.showMessageDialog(null,"The game has ended.");
+                            stateView.dispose(); 
+                        }
+                    }
                 }
             }
         });
-        stateView.getMinimaxOneButton().addActionListener(new ActionListener() {
+        stateView.getMinimaxButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (!inPartialMove) {
-                    state.move(minimaxBot.getMove());
+                    if (state.isFinished()){ 
+                        JOptionPane.showMessageDialog(null,"The game has ended.");
+                        stateView.dispose(); 
+                    }
+                    else{
+                        state.move(minimaxBot.getMove());
+                        stateView.updateButtonImage(state.getBoard());
+                        if (state.isFinished()){ 
+                            JOptionPane.showMessageDialog(null,"The game has ended.");
+                            stateView.dispose(); 
+                        }
+                    }
                 }
+            }
+        });
+        stateView.getUndoButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                state.revertMove();
+                stateView.updateButtonImage(state.getBoard());
             }
         });
     }
@@ -73,7 +106,7 @@ class StateController {
         temp.add(source);
         temp.add(dest);
         state.move(temp);
-        System.out.println(state);
+        // System.out.println(state);
         char[] boardNext = state.getBoard().clone();
         try {
             Thread.sleep(500);
@@ -93,7 +126,7 @@ class StateController {
 
     public void showAvailableMove(Pair p) {
         List<List<Pair>> availMove = state.generateAllMoves();
-        System.out.println("Pair: " + p + ", Moves : " + availMove);
+        // System.out.println("Pair: " + p + ", Moves : " + availMove);
   
         char[] board = state.getBoard().clone();
         //Change view
@@ -141,18 +174,24 @@ class StateController {
     }
 
     public void initListenerShowMoves() {
-        for(int i = 1; i <= State.CELL_CNT; i++) {
-            Pair p = Pair.convertNumToCoor(i);
-            if(state.getBoard(p) != State.EMPTY) {
-                JButton button = stateView.getButton(p.row, p.col);
-                for( ActionListener al : button.getActionListeners()){
-                    button.removeActionListener(al);
-                }
-                button.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        showAvailableMove(p);
+        if (state.isFinished()){ 
+            JOptionPane.showMessageDialog(null,"The game has ended.");
+            this.stateView.dispose(); 
+        }
+        else{
+            for(int i = 1; i <= State.CELL_CNT; i++) {
+                Pair p = Pair.convertNumToCoor(i);
+                if(state.getBoard(p) != State.EMPTY) {
+                    JButton button = stateView.getButton(p.row, p.col);
+                    for( ActionListener al : button.getActionListeners()){
+                        button.removeActionListener(al);
                     }
-                });
+                    button.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            showAvailableMove(p);
+                        }
+                    });
+                }
             }
         }
     }

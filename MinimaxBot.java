@@ -1,10 +1,12 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 class MinimaxBot implements Bot {
-    private static int MAX_DEPTH = 7;
+    private static int MAX_DEPTH = 8;
 
     State internal;
+    Random rand = new Random(System.currentTimeMillis());
 
     public MinimaxBot(State s) {
         internal = s;
@@ -159,6 +161,7 @@ class MinimaxBot implements Bot {
                     nextMove = move;
                 }
             }
+            if (nextMove.size() == 0) nextMove = allMoves.get(rand.nextInt(allMoves.size()));
             return nextMove;
         } else {
             double bestVal = Double.POSITIVE_INFINITY;
@@ -174,6 +177,7 @@ class MinimaxBot implements Bot {
                     nextMove = move;
                 }
             }
+            if (nextMove.size() == 0) nextMove = allMoves.get(rand.nextInt(allMoves.size()));
             return nextMove;
         }
     }

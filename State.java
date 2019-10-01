@@ -343,4 +343,8 @@ class State {
         }
         return s;
     }
+
+    public boolean isFinished(){
+        return (generateAllMoves().size() == 0);
+    }
 }

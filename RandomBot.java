@@ -17,7 +17,6 @@ class RandomBot implements Bot {
     public List<Pair> getMove() {
         List<List<Pair>> allMoves = internal.generateAllMoves();
         List<Pair> randMove = allMoves.get(rand.nextInt(allMoves.size()));
-        internal.move(randMove);
         return randMove;
     }
 }

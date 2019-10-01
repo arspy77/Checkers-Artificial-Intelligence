@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class StateView extends JFrame {
     private LinkedList<LinkedList<JButton>> buttons = new LinkedList<>();
 
-    private JButton randomButton, minimaxButton;
+    private JButton randomButton, minimaxButton, undoButton;
 
     /** Ctor untuk class StateView */
     public StateView() {
@@ -38,7 +38,7 @@ public class StateView extends JFrame {
         }
         this.add(board,BorderLayout.CENTER);
 
-        this.setSize(860, 800);
+        this.setSize(900, 800);
 		this.setResizable(false);
         this.setVisible(true);
         
@@ -46,11 +46,15 @@ public class StateView extends JFrame {
         playerBar.setLayout(new BoxLayout(playerBar, BoxLayout.Y_AXIS));
 		
         randomButton = new JButton(" Random ");
-        randomButton.setPreferredSize(new Dimension(60,200));
+        randomButton.setPreferredSize(new Dimension(100,350));
 		playerBar.add(randomButton);
-		
+        
+        undoButton = new JButton("  Undo  ");
+        undoButton.setPreferredSize(new Dimension(100,100));
+		playerBar.add(undoButton);
+        
         minimaxButton = new JButton(" Minimax ");
-        minimaxButton.setPreferredSize(new Dimension(60,200));
+        minimaxButton.setPreferredSize(new Dimension(100,350));
         playerBar.add(minimaxButton);
 
         this.add(playerBar,BorderLayout.EAST);
@@ -132,5 +136,8 @@ public class StateView extends JFrame {
     }
     public JButton getMinimaxButton(){
         return minimaxButton;
+    }
+    public JButton getUndoButton(){
+        return undoButton;
     }
 }
