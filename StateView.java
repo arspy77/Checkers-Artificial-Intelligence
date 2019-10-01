@@ -121,7 +121,7 @@ public class StateView extends JFrame {
     }
 
     public void updateButtonImage(char[] board) {
-        System.out.println(board);
+        // System.out.println(board);
         for (int i = 1; i <= State.CELL_CNT; i++) {
             Pair p = Pair.convertNumToCoor(i);
             switch (board[i]) {
