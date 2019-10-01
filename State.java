@@ -45,7 +45,7 @@ class Pair {
 
     @Override
     public String toString() {
-        return State.convertCoorToNum(this) + "(" + row + ", " + col + ")";
+        return Pair.convertCoorToNum(this) + "(" + row + ", " + col + ")";
     }
 }
 
@@ -91,7 +91,7 @@ class State {
 
     public char getBoard(Pair p) {
         if (p.row < 0 || p.row >= 8 || p.col < 0 || p.col >= 8) return OUT_OF_BOUND;
-        return board[convertCoorToNum(p)];
+        return board[Pair.convertCoorToNum(p)];
     }
 
     public char[] getBoard() {
