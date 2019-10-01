@@ -56,6 +56,10 @@ class State {
     public static final char OUT_OF_BOUND = '~';
     public static final char EMPTY = '_';
     public static final char POSSIBLE_MOVES = 'P';
+    public static final char CURRENTLY_SELECTED_BLACK_PAWN = 'x';
+    public static final char CURRENTLY_SELECTED_BLACK_KING = 'X';
+    public static final char CURRENTLY_SELECTED_WHITE_PAWN = 'y';
+    public static final char CURRENTLY_SELECTED_WHITE_KING = 'Y';
     public static final char BLACK_PAWN = 'b';
     public static final char BLACK_KING = 'B';
     public static final char WHITE_PAWN = 'w';
@@ -63,8 +67,10 @@ class State {
     
     private char board[];
     private boolean isBlackMove;
+    private List<char[]> boardHistory;
 
     public State() {
+        isBlackMove = true;
         reset();
     }
 
@@ -82,6 +88,7 @@ class State {
         }
 
         isBlackMove = true;
+        boardHistory = new ArrayList<char[]>();
     }
 
     public char getBoard(int x) {
@@ -231,6 +238,13 @@ class State {
                 char cur = getBoard(p), capt = getBoard(pCapt);
                 setCell(p, EMPTY);
                 setCell(pCapt, EMPTY);
+                if (pNew.row == 7 && cur == BLACK_PAWN) {
+                    setCell(pNew, BLACK_KING);
+                } else if (pNew.row == 0 && cur == WHITE_PAWN) {
+                    setCell(pNew, WHITE_KING);
+                } else {
+                    setCell(pNew, cur);
+                }
                 setCell(pNew, cur);
                 curPath.add(pNew);
                 DFSAllCapture(pNew, curPath, solution);
@@ -266,7 +280,6 @@ class State {
             if ((isBlackMove && isBlack(p)) || (!isBlackMove && isWhite(p))) {
                 solution.addAll(generateAllCaptures(p));
             } 
-            // System.out.println(solution);
         }
         if (solution.size() == 0) {
             for (int i = 1; i <= CELL_CNT; ++i) {
@@ -281,22 +294,34 @@ class State {
     }
 
     public void move(List<Pair> moves) {
+        boardHistory.add(board.clone());
         Pair p = moves.get(0);
-        Pair pTemp = p.copy();
+        Pair pNew = p.copy();
         //Apply move
         for(int i = 1; i < moves.size(); i++) {
-            pTemp = moves.get(i);
-            char c = getBoard(p);
+            pNew = moves.get(i);
+            char cur = getBoard(p);
             setCell(p, EMPTY);
-            setCell(pTemp, c);
-            if(p.dist(pTemp) == 4) {
-                //Capture
-                setCell(p.mid(pTemp), EMPTY);
+            if (pNew.row == 7 && cur == BLACK_PAWN) {
+                setCell(pNew, BLACK_KING);
+            } else if (pNew.row == 0 && cur == WHITE_PAWN) {
+                setCell(pNew, WHITE_KING);
+            } else {
+                setCell(pNew, cur);
             }
-            p = pTemp.copy();
+            if(p.dist(pNew) == 4) {
+                //Capture
+                setCell(p.mid(pNew), EMPTY);
+            }
+            p = pNew.copy();
         }
+        isBlackMove = !isBlackMove;
     }
 
+    public void revertMove() {
+        board = boardHistory.remove(boardHistory.size() - 1);
+        isBlackMove = !isBlackMove;
+    }
 
     @Override
     public String toString() {
