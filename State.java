@@ -21,7 +21,7 @@ class Pair {
     public Pair copy() {
         return new Pair(row, col);
     }
-        
+
     public static Pair convertNumToCoor(int x) {
         --x;
         Pair ans = new Pair(x / 4, (x % 4) * 2);
@@ -38,10 +38,18 @@ class Pair {
             return 0;
         }
     }
+    public int dist(Pair p) {
+        //Manhattan Distance
+        return Math.abs(row-p.row) + Math.abs(col - p.col);
+    }
 
+    @Override
+    public String toString() {
+        return State.convertCoorToNum(this) + "(" + row + ", " + col + ")";
+    }
 }
 
-class State{
+class State {
     public static final int CELL_CNT = 32;
     public static final int START_PAWN_CNT = 12;
     public static final int CELL_LEN = 8;
@@ -82,8 +90,8 @@ class State{
     }
 
     public char getBoard(Pair p) {
-        if (p.row < 0 || p.row >= CELL_CNT || p.col < 0 || p.col >= CELL_CNT) return OUT_OF_BOUND;
-        return board[Pair.convertCoorToNum(p)];
+        if (p.row < 0 || p.row >= 8 || p.col < 0 || p.col >= 8) return OUT_OF_BOUND;
+        return board[convertCoorToNum(p)];
     }
 
     public char[] getBoard() {
@@ -92,6 +100,10 @@ class State{
 
     public boolean getIsBlackMove() {
         return isBlackMove;
+    }
+
+    public void setIsBlackMove(boolean b) {
+        isBlackMove = b;
     }
 
     public boolean isEmpty(Pair p) {
@@ -107,7 +119,7 @@ class State{
     }
 
     public boolean isWhitePawn(Pair p) {
-        return getBoard(p) == BLACK_PAWN;
+        return getBoard(p) == WHITE_PAWN;
     }
 
     public boolean isWhiteKing(Pair p) {
@@ -228,12 +240,14 @@ class State{
                 setCell(p, cur);
             }
         } else {
-            List<Pair> temp = new ArrayList<Pair>();
-            curPath.stream().forEach(_p -> {
-                Pair np = _p.copy();
-                temp.add(np);
-            });
-            solution.add(temp);  
+            if(curPath.size() > 1){
+                List<Pair> temp = new ArrayList<Pair>();
+                curPath.stream().forEach(_p -> {
+                    Pair np = _p.copy();
+                    temp.add(np);
+                });
+                solution.add(temp);
+            }  
         }
     }
 
@@ -247,14 +261,15 @@ class State{
 
     public List<List<Pair>> generateAllMoves() {
         List<List<Pair>> solution = new ArrayList<List<Pair>>();
-        for (int i = 0; i < CELL_CNT; ++i) {
+        for (int i = 1; i <= CELL_CNT; ++i) {
             Pair p = Pair.convertNumToCoor(i);
             if ((isBlackMove && isBlack(p)) || (!isBlackMove && isWhite(p))) {
                 solution.addAll(generateAllCaptures(p));
             } 
+            // System.out.println(solution);
         }
         if (solution.size() == 0) {
-            for (int i = 0; i < CELL_CNT; ++i) {
+            for (int i = 1; i <= CELL_CNT; ++i) {
                 Pair p = Pair.convertNumToCoor(i);
                 if ((isBlackMove && isBlack(p)) || (!isBlackMove && isWhite(p))) {
                     solution.addAll(generateSingleMotion(p));
@@ -263,6 +278,23 @@ class State{
         }
 
         return solution;
+    }
+
+    public void move(List<Pair> moves) {
+        Pair p = moves.get(0);
+        Pair pTemp = p.copy();
+        //Apply move
+        for(int i = 1; i < moves.size(); i++) {
+            pTemp = moves.get(i);
+            char c = getBoard(p);
+            setCell(p, EMPTY);
+            setCell(pTemp, c);
+            if(p.dist(pTemp) == 4) {
+                //Capture
+                setCell(p.mid(pTemp), EMPTY);
+            }
+            p = pTemp.copy();
+        }
     }
 
 
