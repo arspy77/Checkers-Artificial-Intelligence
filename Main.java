@@ -19,14 +19,14 @@ public class Main extends JFrame{
 
     /** Constructor Main */
     private Main(){
-        State w = new State(20, 22);
-        StateController wc = new StateController(w);
-        StateView wv = wc.getStateView();
-        add(wv);
-        setTitle("Engi's Farm");
-        Thread t1 = new Thread(wc,"T1");
+        State s = new State(20, 22);
+        StateController sc = new StateController(s);
+        StateView sv = sc.getStateView();
+        add(sv);
+        setTitle("Checkers");
+        Thread t1 = new Thread(sc,"T1");
         t1.start();
-        setSize((1 + w.getNCol() + 1 + wv.InventoryTabLength/2 + 2 + wv.mesQueueLength/2 + 1) * wv.SPACE + xOffset, (w.getNRow() + 2) * wv.SPACE + yOffset);
+        setSize((1 + s.getNCol() + 1 + sv.InventoryTabLength/2 + 2 + sv.mesQueueLength/2 + 1) * sv.SPACE + xOffset, (s.getNRow() + 2) * sv.SPACE + yOffset);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

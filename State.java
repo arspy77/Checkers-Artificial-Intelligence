@@ -1,6 +1,5 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Observable;
 
 class Pair {
     public int row;
@@ -23,6 +22,22 @@ class Pair {
         return new Pair(row, col);
     }
 
+    public static Pair convertNumToCoor(int x) {
+        --x;
+        Pair ans = new Pair(x / 4, (x % 4) * 2);
+        if (ans.row % 2 == 0) {
+            ++ans.col;
+        }
+        return ans;
+    }
+
+    public static int convertCoorToNum(Pair p) {
+        if ((p.row + p.col) % 2 == 1) {
+            return 4 * p.row + (p.col / 2) + 1;
+        } else {
+            return 0;
+        }
+    }
     public int dist(Pair p) {
         //Manhattan Distance
         return Math.abs(row-p.row) + Math.abs(col - p.col);
@@ -30,7 +45,7 @@ class Pair {
 
     @Override
     public String toString() {
-        return State.convertCoorToNum(this) + "(" + row + ", " + col + ")";
+        return Pair.convertCoorToNum(this) + "(" + row + ", " + col + ")";
     }
 }
 
@@ -40,6 +55,7 @@ class State {
     public static final int CELL_LEN = 8;
     public static final char OUT_OF_BOUND = '~';
     public static final char EMPTY = '_';
+    public static final char POSSIBLE_MOVES = 'P';
     public static final char BLACK_PAWN = 'b';
     public static final char BLACK_KING = 'B';
     public static final char WHITE_PAWN = 'w';
@@ -75,7 +91,7 @@ class State {
 
     public char getBoard(Pair p) {
         if (p.row < 0 || p.row >= 8 || p.col < 0 || p.col >= 8) return OUT_OF_BOUND;
-        return board[convertCoorToNum(p)];
+        return board[Pair.convertCoorToNum(p)];
     }
 
     public char[] getBoard() {
@@ -134,26 +150,9 @@ class State {
      06 | -- 25 -- 26 -- 27 -- 28
      07 | 29 -- 30 -- 31 -- 32 --
      */
-    
-    public static Pair convertNumToCoor(int x) {
-        --x;
-        Pair ans = new Pair(x / 4, (x % 4) * 2);
-        if (ans.row % 2 == 0) {
-            ++ans.col;
-        }
-        return ans;
-    }
-
-    public static int convertCoorToNum(Pair p) {
-        if ((p.row + p.col) % 2 == 1) {
-            return 4 * p.row + (p.col / 2) + 1;
-        } else {
-            return 0;
-        }
-    }
 
     public void setCell(Pair p, char c) {
-        board[convertCoorToNum(p)] = c;
+        board[Pair.convertCoorToNum(p)] = c;
     }
 
     public List<List<Pair>> generateSingleMotion(Pair p) {
@@ -263,8 +262,7 @@ class State {
     public List<List<Pair>> generateAllMoves() {
         List<List<Pair>> solution = new ArrayList<List<Pair>>();
         for (int i = 1; i <= CELL_CNT; ++i) {
-            // System.out.println(i);
-            Pair p = convertNumToCoor(i);
+            Pair p = Pair.convertNumToCoor(i);
             if ((isBlackMove && isBlack(p)) || (!isBlackMove && isWhite(p))) {
                 solution.addAll(generateAllCaptures(p));
             } 
@@ -272,7 +270,7 @@ class State {
         }
         if (solution.size() == 0) {
             for (int i = 1; i <= CELL_CNT; ++i) {
-                Pair p = convertNumToCoor(i);
+                Pair p = Pair.convertNumToCoor(i);
                 if ((isBlackMove && isBlack(p)) || (!isBlackMove && isWhite(p))) {
                     solution.addAll(generateSingleMotion(p));
                 } 
@@ -298,6 +296,7 @@ class State {
             p = pTemp.copy();
         }
     }
+
 
     @Override
     public String toString() {
