@@ -29,16 +29,53 @@ public class StateView extends JFrame {
                 else{
                     button.setBackground(new Color(0, 0, 0));
                 }
+                rowButtons.add(button);
                 board.add(button);
             }
-            buttons.add(rowButtons);
+            this.buttons.add(rowButtons);
         }
         this.add(board,BorderLayout.CENTER);
 
-        this.setSize(1000, 1000);
+        this.setSize(875, 800);
 		this.setResizable(false);
-		this.setVisible(true);
+        this.setVisible(true);
+        
+        JPanel playerBar = new JPanel();
+        playerBar.setLayout(new BoxLayout(playerBar, BoxLayout.Y_AXIS));
 
+        JTextField playerOne = new JTextField("Player One :");
+        playerOne.setPreferredSize(new Dimension(75,100));
+        playerBar.add(playerOne);
+
+        JButton humanOne = new JButton("Human");
+        humanOne.setPreferredSize(new Dimension(75,100));
+        playerBar.add(humanOne);
+		
+        JButton randomOne = new JButton("Random");
+        randomOne.setPreferredSize(new Dimension(75,100));
+		playerBar.add(randomOne);
+		
+        JButton minimaxOne = new JButton("Minimax");
+        minimaxOne.setPreferredSize(new Dimension(75,100));
+        playerBar.add(minimaxOne);
+
+        JTextField playerTwo = new JTextField("Player Two :");
+        playerTwo.setPreferredSize(new Dimension(75,100));
+        playerBar.add(playerTwo);
+
+        JButton humanTwo = new JButton("Human");
+        humanTwo.setPreferredSize(new Dimension(75,100));
+		playerBar.add(humanTwo);
+		
+        JButton randomTwo = new JButton("Random");
+        randomTwo.setPreferredSize(new Dimension(75,100));
+		playerBar.add(randomTwo);
+		
+        JButton minimaxTwo = new JButton("Minimax");
+        minimaxTwo.setPreferredSize(new Dimension(75,100));
+        playerBar.add(minimaxTwo);
+        
+        this.add(playerBar,BorderLayout.EAST);
     }
 
     /**
@@ -74,9 +111,11 @@ public class StateView extends JFrame {
     }
 
     public void updateButtonImage(char[] board) {
-        for (int i = 1; i < State.CELL_CNT; i++) {
+        for (int i = 1; i <= State.CELL_CNT; i++) {
             Pair p = Pair.convertNumToCoor(i);
-            switch (i) {
+            System.out.println(board[i]);
+            System.out.println(p.row + " " + p.col);
+            switch (board[i]) {
             case State.POSSIBLE_MOVES:
                 buttons.get(p.row).get(p.col).setIcon(new ImageIcon("img/possible-moves.png"));
                 break;

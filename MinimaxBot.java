@@ -1,13 +1,12 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Random;
 
 class MinimaxBot implements Bot {
     private static int MAX_DEPTH = 0;
 
     State internal = new State();
 
-    public void applyOppMove(List<Pair> moves) {
+    public void applyMove(List<Pair> moves) {
         internal.move(moves);
     }
 

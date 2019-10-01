@@ -1,6 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 class MainTest {
     public static void main(String[] args) {
@@ -8,7 +9,7 @@ class MainTest {
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Hitam / Putih ? ");
-        String turn = scan.nextLine();
+        String turn = getTurnDialog();
         boolean isBlack;
         if(turn.compareTo("Hitam") == 0)
         {
@@ -46,5 +47,20 @@ class MainTest {
                 internal.move(minimaxBot.getMove());
             }
         }
+    }
+
+    public static String getTurnDialog(){
+        //Custom button text
+        Object[] options = {"Hitam",
+        "Putih"};
+        int n = JOptionPane.showOptionDialog(null,
+        ""
+        + "with that ham?",
+        "A Silly Question",
+        JOptionPane.YES_NO_CANCEL_OPTION,
+        JOptionPane.QUESTION_MESSAGE,
+        null,
+        options,
+        options[2]);
     }
 }

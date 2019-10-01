@@ -12,6 +12,7 @@ class StateController {
     }
 
     public void initController(){
+        System.out.println(this.state);
         this.stateView.updateButtonImage(this.state.getBoard());
     }
     public StateView getView(){
